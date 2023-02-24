@@ -1,10 +1,31 @@
-<!DOCTYPE html "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Homepage</title>
+    <title>Home page</title>
 </head>
 <body>
-<h2>This is a homepage</h2>
+<h2> Welcome to the homepage</h2>
+<p sec:authorize="hasRole('ROLE_ANONYMOUS')">Text visible to anyone</p>
+<p sec:authorize="hasRole('USER')">Text visible to users</p>
+<p sec:authorize="hasRole('ADMIN')">Text visible to Admins</p>
+<p sec:authorize="isAuthenticated()">Text visible to authenticated users</p>
+
+<div sec:authorize="hasRole('ROLE_ANONYMOUS')">
+    <p><a th:href="@{|/login|}" th:text="'Log in'"></a></p>
+    <p><a th:href="@{|/register|}" th:text="'Register'"></a></p>
+
+</div>
+
+<div sec:authorize="isAuthenticated()">
+    <p>Logged in as: <span sec:authentication="name"></span></p>
+    <p>Has role: <span sec:authentication="authorities"></span></p>
+    <p sec:authorize="hasAuthority('USER')"><a th:href="@{|/dashboard|}" th:text="'User dashboard'"></a></p>
+    <p sec:authorize="hasAuthority('ADMIN')"><a th:href="@{|/admin/dashboard|}" th:text="'Admin dashboard'"></a></p>
+    <a th:href="@{/logout}">Logout</a>
+</div>
+
 </body>
 </html>
