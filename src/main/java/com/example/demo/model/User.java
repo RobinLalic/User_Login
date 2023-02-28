@@ -17,7 +17,7 @@ import java.util.Collections;
 
 
 @Entity
-@Table(name = "users")
+@Table(name = "Users")
 public class User implements UserDetails {
     @SequenceGenerator(
             name = "userSequence" ,
@@ -45,12 +45,12 @@ public class User implements UserDetails {
     private String email;
 
     @NotNull(message = "Password must not be empty")
-    @Length(min = 8, message = "Password must contain atleast 8 characters")
+    @Length(min = 5, message = "Password must contain at least 5 characters")
     @Column(name = "password")
     private String password;
 
-    @Column(name = "mobile", unique = true)
-    @Length(min = 10, message = "Password should contain atleast 10 characters")
+    @Column(name = "mobilePhoneNumber", unique = true)
+    @Length(min = 5, message = "Mobile number must contain at least 5 characters")
     private String mobile;
 
     @CreationTimestamp
@@ -64,11 +64,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "locked")
+    @Column(name = "isLocked")
     private Boolean locked = false;
 
-    @Column(name = "enabled")
+    @Column(name = "isEnabled")
     private Boolean enabled = true;
+
 
     @Override
     public  Collection<? extends GrantedAuthority> getAuthorities(){
